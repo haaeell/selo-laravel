@@ -13,295 +13,457 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
-
 <style>
-    .search-results {
+    body {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .navbar {
+        padding: 12px 0;
+        background-color: #4d98e3;
+        backdrop-filter: none;
+        transition: background-color 0.3s, backdrop-filter 0.3s;
+    }
+
+    .transparent,
+    footer {
+        background: linear-gradient(to right, #4d98e3, #3366a0);
+    }
+
+    .navbar {
+        transition: background-color 0.3s, backdrop-filter 0.3s, padding 0.3s;
+    }
+
+    .navbar.transparent {
+        padding: 15px 0;
+    }
+
+
+
+    .nav-link {
+        color: white;
+    }
+    #banner {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+        color: white;
+    }
+
+    #background-image {
         position: absolute;
-        top: 100%;
+        top: 0;
         left: 0;
         width: 100%;
-        background-color: white;
-        border: 1px solid #ccc;
-        border-radius: 0 0 10px 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1001;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
     }
 
-    .search-result-item {
+    #banner h1 {
+        letter-spacing: 0.3em;
+        font-size: 4rem;
+        font-weight: 700;
+
+    }
+
+    #hero {
+        background-color: rgb(241, 246, 252);
+    }
+
+    .btn-cta {
+        background: linear-gradient(to right, #4d98e3, #3366a0);
+        border-radius: 32px;
+        color: white;
+        padding: 8px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+        box-shadow: 0 0 5px rgba(77, 152, 227, 0.8);
+    }
+
+    .btn-cta:hover {
+        background-color: #3366a0;
+        background: linear-gradient(to right, #3366a0, #4d98e3);
+    }
+
+
+    /* hero */
+
+    .badge-hero {
+        color: #4d98e3;
+        font-weight: 600;
+        text-shadow: 0 0 2px rgba(77, 152, 227, 0.8);
+        font-size: 1rem;
+
+    }
+
+    .title-hero {
+        font-weight: 900;
+        font-size: 3rem;
+    }
+
+    .smile-hero {
+        background: linear-gradient(to right, #4d98e3, #3366a0);
+        background-clip: text;
+        /* Apply gradient to text content */
+        -webkit-background-clip: text;
+        /* For Safari */
+        color: transparent;
+        /* Make the text transparent to show the gradient */
+        border-bottom: 3px solid #4d98e3;
+    }
+
+    .card-features {
+        background-color: #c4d6e8;
+        color: #3366a0;
+        border-radius: 8px;
         padding: 10px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .card-features:hover {
+        background-color: #3366a0;
+        color: #fff;
+        border-radius: 8px;
+    }
+
+    .swiper {
+        width: 100%;
+        height: 400px;
+        border-radius: 32px;
+
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .toggle-menu {
+        display: none;
         cursor: pointer;
-    }
-
-    .search-result-item:hover {
-        background-color: #f0f0f0;
-    }
-
-    .search-container {
         position: relative;
+    }
+
+    .bar {
+        width: 30px;
+        height: 4px;
+        background-color: white;
+        margin: 3px 0;
+        transition: 0.3s;
+    }
+
+    .toggle-menu.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .toggle-menu.active .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .toggle-menu.active .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    /* ... (gaya lainnya) ... */
+
+    .scroll-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #3366a0;
+        border: 1px solid #fff;
+        color: white;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .scroll-to-top i {
+        font-size: 1.5rem;
+    }
+
+    /* Show the scroll-to-top button when user scrolls down */
+    .show-scroll {
+        opacity: 1;
+        visibility: visible;
+    }
+
+
+    @media (max-width: 768px) {
+        #banner {
+            padding: 20px;
+            /* Tambahkan padding untuk jarak dari tepi */
+            text-align: center;
+            /* height: 50vh;  */
+        }
+
+        #banner h1 {
+            font-size: 3rem;
+            /* Ukuran font lebih kecil di perangkat mobile */
+        }
+
+        .toggle-menu {
+            display: block;
+        }
+
+        #navbarNav {
+            position: absolute;
+            top: 0;
+            right: -300px;
+            background: linear-gradient(to right, #4d98e3, #3366a0);
+            width: 200px;
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+            z-index: -1;
+            border-radius: 32px 0 0 32px;
+        }
+
+        #navbarNav.show {
+            right: 0;
+        }
+
+        .navbar-nav {
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding-top: 70px;
+        }
+
+        .nav-link {
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
     }
 </style>
 
 <body>
-    <div class="overlay" id="overlay"></div>
-    <nav class="navbar navbar-expand-lg ">
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
         <div class="container">
-            <img src="https://api.bbksdajatim.org/tiket-api/upload/lokasi/2024-03-29/file/MIB9eY128h.png" width="70"
-                alt="">
-            <a class="navbar-brand fw-bold" href="#">Gunkidsss Bos.</a>
-            <div class="col-md-4">
-                <form class="d-flex search-container" role="search" onsubmit="return false;">
-                    <input id="search-input" class="form-control me-2 ps-5" type="search" placeholder="Cari Wisata"
-                        aria-label="search" style="border-radius: 24px;" oninput="searchWisata()"
-                        onfocus="showResults()" onblur="hideResults()">
-                    <i class="bi bi-search position-absolute"
-                        style="top: 50%; left: 10px; transform: translateY(-50%);"></i>
-                    <div id="search-results" class="search-results d-none rounded-4"></div>
-                </form>
+            <a class="navbar-brand fw-semibold" href="#"><img src="./assets/logo-taruna1.png "
+                    style="width: 50px;" alt=""></a>
+            <div class="toggle-menu" id="toggleMenu" onclick="toggleNav()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto mx-5 gap-3">
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold" href="/semua-wisata">Wisata</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold" href="{{ route('favorites') }}">Favorite</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-semibold" href="{{ route('artikel') }}">Artikel</a>
-                    </li>
+            <ul class="navbar-nav ms-auto fw-semibold gap-3" id="navbarNav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Beranda</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="organisasiDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Organisasi
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="organisasiDropdown">
+                        <li><a class="dropdown-item" href="{{ route('home.organisasi', ['nama' => 'kwt']) }}">Kelompok Wisata Tani</a></li>
+                        <li><a class="dropdown-item" href="{{ route('home.organisasi', ['nama' => 'karang-taruna']) }}">Karang Taruna</a></li>
+                        <li><a class="dropdown-item" href="{{ route('home.organisasi', ['nama' => 'posyandu']) }}">Posyandu</a></li>
+                        <li><a class="dropdown-item" href="{{ route('home.organisasi', ['nama' => 'pkk']) }}">PKK</a></li>
+                    </ul>
+                    
+                </li>
 
-
-                </ul>
-                <ul class="navbar-nav ">
-                    @if (Route::has('login'))
-                        @auth
-                            <li class="nav-item">
-                                <a class="btn btn-dark rounded-5 px-4 py-2" href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a class="btn btn-dark rounded-5 px-4 py-2" href="{{ route('login') }}">Masuk</a>
-                            </li>
-
-                            {{-- @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/register') }}">Register</a>
-                                </li>
-                            @endif --}}
-                        @endauth
-                    @endif
-                </ul>
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home.dokumentasi') }}">Dokumentasi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home.kontak') }}">Kontak</a>
+                </li>
+            </ul>
         </div>
     </nav>
 
-
     @yield('content')
 
+    <footer class="bg-primary p-3 ">
+        <div class="container text-white ">
+            <div class="row d-flex justify-content-center align-items-center my-5">
+                <div class="col-md-10 text-center">
+                    <div class="row  gap-3 justify-content-center align-items-center">
+                        <div class="d-flex gap-3 text-center justify-content-center">
+                            <a href="#"><i class="bi bi-facebook text-white fw-bold fs-4"></i></a>
 
+                            <a href="#"><i class="bi bi-instagram text-white fw-bold fs-4"></i></a>
 
-    <footer class="text-light pt-4 pb-3"
-        style="background: rgb(64,64,202);
-background: linear-gradient(90deg, rgba(64,64,202,1) 0%, rgba(0,142,255,1) 100%);">
-        <div class="container">
-            <div class="row text-center  d-flex justify-content-center align-items-center">
-                <!-- Logo and Address -->
-                <div class="col-md-4 mb-3 mb-md-0 text-center">
-                    <div class="mb-3">
-                        <img src="https://api.bbksdajatim.org/tiket-api/upload/lokasi/2024-03-29/file/MIB9eY128h.png"
-                            width="100" alt="Logo">
-                    </div>
-                    <p>Jl. Cempedak I No. 10, Cempedak, Kec. Cilacap Tengah, Kab. Cilacap, Jawa Tengah</p>
-                    <p>Gunung Kidul</p>
-                </div>
-                <!-- Useful Links -->
-                <div class="col-md-4 mb-3 mb-md-0 text-center">
-                    <h5>Useful Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none">About Us</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Contact Us</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Privacy Policy</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Terms &amp; Conditions</a></li>
-                    </ul>
-                </div>
-                <!-- Social Media -->
-                <div class="col-md-4 text-center">
-                    <h5>Follow Us</h5>
-                    <div class="d-flex justify-content-center">
-                        <a href="https://facebook.com" class="text-light me-3" target="_blank" aria-label="Facebook">
-                            <i class="bi bi-facebook fs-4"></i>
-                        </a>
-                        <a href="https://twitter.com" class="text-light me-3" target="_blank" aria-label="Twitter">
-                            <i class="bi bi-twitter fs-4"></i>
-                        </a>
-                        <a href="https://instagram.com" class="text-light me-3" target="_blank"
-                            aria-label="Instagram">
-                            <i class="bi bi-instagram fs-4"></i>
-                        </a>
-                        <a href="https://linkedin.com" class="text-light" target="_blank" aria-label="LinkedIn">
-                            <i class="bi bi-linkedin fs-4"></i>
-                        </a>
+                            <a href="#"><i class="bi bi-linkedin text-white fw-bold fs-4"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-4">
-                <p class="mb-0">Copyright &copy; 2023 - Gunkids. All Rights Reserved.</p>
+
+            <div class="row d-flex justify-content-center align-items-center my-5">
+                <div class="col-md-10 text-center">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore tempora nihil praesentium
+                        incidunt voluptatem, expedita ab aut placeat omnis neque.</p>
+                    <h4 class="fw-bold">~ POKOKNY INI FOOTER ~</h4>
+                </div>
             </div>
         </div>
     </footer>
 
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $('.toggle-favorite-btn').on('click', function() {
-                var btn = $(this);
-                var wisataId = btn.data('id');
-                var url = '{{ route('wisata.toggleFavorite', ':id') }}';
-                url = url.replace(':id', wisataId);
 
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        if (response.status === 'added') {
-                            btn.find('i').removeClass('bi-heart').addClass(
-                                'text-danger bi-heart-fill');
-                            btn.attr('title', 'Hapus dari favorit').tooltip('dispose')
-                                .tooltip();
-                        } else if (response.status === 'removed') {
-                            btn.find('i').removeClass('text-danger bi-heart-fill').addClass(
-                                'bi-heart');
-                            btn.attr('title', 'Tambahkan ke favorit').tooltip('dispose')
-                                .tooltip();
-                        }
-                    },
-                    error: function(response) {
-                        if (response.status === 401) {
-                            window.location.href = '{{ route('login') }}';
-                        }
-                    }
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+
+    <script>
+        function toggleNav() {
+            var nav = document.getElementById("navbarNav");
+            var toggle = document.getElementById("toggleMenu");
+            nav.classList.toggle("show");
+            toggle.classList.toggle("active");
+        }
+
+        document.addEventListener("click", function(event) {
+            var nav = document.getElementById("navbarNav");
+            var toggle = document.getElementById("toggleMenu");
+
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove("show");
+                toggle.classList.remove("active");
+            }
+        });
+
+        var map = L.map("map").setView([51.505, -0.09], 13);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,
+            spaceBetween: 10,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            loop: true,
+        });
+
+        const navbar = document.querySelector(".navbar");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add("transparent");
+            } else {
+                navbar.classList.remove("transparent");
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const scrollToTopButton = document.getElementById("scrollToTop");
+
+            window.addEventListener("scroll", function() {
+                if (window.scrollY > 200) {
+                    scrollToTopButton.classList.add("show-scroll");
+                } else {
+                    scrollToTopButton.classList.remove("show-scroll");
+                }
+            });
+
+            scrollToTopButton.addEventListener("click", function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
                 });
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            const targetNumber = 2025;
+            const counterElement = document.getElementById("counter");
+
+            new Waypoint({
+                element: counterElement,
+                handler: function() {
+                    anime({
+                        targets: counterElement,
+                        innerHTML: [0, targetNumber],
+                        duration: 1500,
+                        easing: "linear",
+                        round: 1,
+                    });
+                    this.destroy();
+                },
+                offset: "bottom-in-view",
             });
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     @yield('script')
     <script>
-        function searchWisata() {
-            let query = document.getElementById('search-input').value;
-
-            if (query.length > 0) {
-                fetch(`/search?query=${query}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        displayResults(data.results);
-                    });
-            } else {
-                clearResults();
-            }
-        }
-
-        function displayResults(results) {
-            let resultsContainer = document.getElementById('search-results');
-            resultsContainer.innerHTML = '';
-
-            if (results.length > 0) {
-                results.forEach(result => {
-                    let div = document.createElement('div');
-                    div.className = 'search-result-item';
-
-                    let link = document.createElement('a');
-                    link.href = result.detail_url;
-                    link.className = 'search-result-link';
-                    link.innerHTML = `
-                <img src="${result.image_url}" width="50" class="rounded-2" alt="">
-                <span>${result.nama}</span>
-            `;
-                    link.addEventListener('click', function(event) {
-                        console.log('Link clicked:', result.detail_url); 
-                        window.location.href = result.detail_url; 
-                    });
-
-                    div.appendChild(link);
-                    resultsContainer.appendChild(div);
-                });
-            } else {
-                resultsContainer.innerHTML = '<div class="search-result-item">Tidak ada hasil ditemukan</div>';
-            }
-
-            resultsContainer.classList.remove('d-none');
-        }
-
-        function clearResults() {
-            let resultsContainer = document.getElementById('search-results');
-            resultsContainer.innerHTML = '';
-            resultsContainer.classList.add('d-none');
-        }
-
-        function showResults() {
-            let resultsContainer = document.getElementById('search-results');
-            if (resultsContainer.children.length > 0) { // At least one result item
-                resultsContainer.classList.remove('d-none');
-            }
-        }
-
-        function hideResults() {
-            setTimeout(() => {
-                let resultsContainer = document.getElementById('search-results');
-                resultsContainer.classList.add('d-none');
-            }, 200);
-        }
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            slidesPerView: 3,
+            spaceBetween: 20,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            scrollbar: {
+                el: '.swiper-scrollbar',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
     </script>
-   <script>
-    var swiper = new Swiper(".mySwiper", {
-        loop: true,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        scrollbar: {
-            el: '.swiper-scrollbar',
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-    });
-</script>
+
 
     <script>
         var swiperCard = new Swiper(".swiperCard", {
@@ -356,8 +518,6 @@ background: linear-gradient(90deg, rgba(64,64,202,1) 0%, rgba(0,142,255,1) 100%)
             });
         </script>
     @endif
-
-
 </body>
 
 </html>

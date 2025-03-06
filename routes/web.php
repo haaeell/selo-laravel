@@ -1,53 +1,28 @@
 <?php
 
-use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomepageController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\ArtikelController;
-use App\Http\Controllers\WisataController;
-use App\Http\Controllers\WisatawanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BayiController;
+use App\Http\Controllers\IbuHamilController;
+use App\Http\Controllers\LansiaController;
+use App\Http\Controllers\DokumentasiController;
+use App\Http\Controllers\HomeController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-
-Route::get('/', [HomepageController::class, 'index']);
-Route::get('/semua-wisata', [HomepageController::class, 'allWisata']);
-Route::get('/detailWisata/{id}', [HomepageController::class, 'detail'])->name('detail');
-Route::get('/wisata/filter/{kategori}', [WisataController::class, 'filter'])->name('wisata.filter');
-Route::get('/search', [HomepageController::class, 'search'])->name('search');
-Route::get('/artikel', [HomepageController::class, 'artikel'])->name('artikel');
-Route::get('/artikel/{id}', [HomepageController::class, 'show'])->name('artikel.show');
-
-
-
-
+Route::get('/', [HomeController::class, 'landingpage'])->name('landingpage');
 
 Auth::routes();
 
 Route::middleware('auth')->group(function () {
-
-    Route::resource('wisata', WisataController::class);
-    Route::post('/wisata/{id}/favorite', [WisataController::class, 'toggleFavorite'])->name('wisata.toggleFavorite');
-    Route::get('/favorites', [WisataController::class, 'favorites'])->name('favorites');
-    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('bayi', BayiController::class);
+    Route::resource('ibu-hamil', IbuHamilController::class);
+    Route::resource('lansia', LansiaController::class);
+    Route::resource('dokumentasi', DokumentasiController::class);
+  
 });
 
-Route::group(['middleware' => 'admin'], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::resource('kategori', KategoriController::class);
-    Route::resource('artikels', ArtikelController::class);
-    Route::get('/wisatawan', [WisatawanController::class, 'index'])->name('wisatawan');
-
-
-});
+Route::get('/home/dokumentasi', [HomepageController::class, 'dokumentasi'])->name('home.dokumentasi');
+Route::get('/home/dokumentasi/{id}', [HomepageController::class, 'detailDokumentasi'])->name('home.dokumentasi.detail');
+Route::get('/home/organisasi/{nama}', [HomepageController::class, 'organisasi'])->name('home.organisasi');
+Route::get('/home/kontak', [HomepageController::class, 'kontak'])->name('home.kontak');

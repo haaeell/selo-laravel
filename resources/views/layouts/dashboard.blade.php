@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     
-    <title>@yield('title') &mdash; WISATA GUNKID</title>
+    <title>@yield('title') &mdash; PADUKUHAN SELO</title>
 
     <!-- General CSS Files -->
 
@@ -76,7 +76,7 @@
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="index.html">WISATA GUNKID</a>
+                        <a href="index.html">PADUKUHAN SELO</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
                         <a href="index.html">St</a>
@@ -89,29 +89,29 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="menu-header">Data Wisata</li>
-                        <li class="{{ request()->is('kategori') ? 'active' : '' }}">
-                            <a href="{{ route('kategori.index') }}" class="nav-link">
+                        <li class="menu-header">Data </li>
+                        <li class="{{ request()->is('bayi') ? 'active' : '' }}">
+                            <a href="{{ route('bayi.index') }}" class="nav-link">
                                 <i class="bi bi-tags"></i>
-                                <span>Kategori</span>
+                                <span>Bayi</span>
                             </a>
                         </li>
-                        <li class="{{ request()->is('wisata') ? 'active' : '' }}">
-                            <a href="{{ route('wisata.index') }}" class="nav-link">
+                        <li class="{{ request()->is('lansia') ? 'active' : '' }}">
+                            <a href="{{ route('lansia.index') }}" class="nav-link">
                                 <i class="bi bi-map"></i>
-                                <span>Destinasi Wisata</span>
+                                <span>Lansia</span>
                             </a>
                         </li>
-                        <li class="{{ request()->is('wisatawan') ? 'active' : '' }}">
-                            <a href="{{ route('wisatawan') }}" class="nav-link">
+                        <li class="{{ request()->is('ibu-hamil') ? 'active' : '' }}">
+                            <a href="{{ route('ibu-hamil.index') }}" class="nav-link">
                                 <i class="bi bi-people"></i>
-                                <span>Wisatawan</span>
+                                <span>Ibu Hamil</span>
                             </a>
                         </li>
-                        <li class="{{ request()->is('artikels') ? 'active' : '' }}">
-                            <a href="{{ route('artikels.index') }}" class="nav-link">
+                        <li class="{{ request()->is('dokumentasi') ? 'active' : '' }}">
+                            <a href="{{ route('dokumentasi.index') }}" class="nav-link">
                                 <i class="bi bi-book"></i>
-                                <span>Artikel</span>
+                                <span>Dokumentasi</span>
                             </a>
                         </li>
                         

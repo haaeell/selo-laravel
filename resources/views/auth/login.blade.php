@@ -2,15 +2,14 @@
 
 @section('content')
 <div class="container vh-100 ">
-    <div class="row justify-content-center align-items-center " style="height: 80vh">
+    <div class="row justify-content-center align-items-center" style="height: 80vh">
         <div class="col-md-6">
             <div class="card shadow border-0 rounded-4 p-3">
                <div class="text-center">
-                <img src="https://api.bbksdajatim.org/tiket-api/upload/lokasi/2024-03-29/file/MIB9eY128h.png" width="100" alt="">
+                <img src="{{ asset('assets/logo-taruna1.png') }}" width="100" alt="">
                </div>
-                <h4 class="fw-semibold text-center mb-4">Login Boyyy</h4>
+                <h4 class="fw-semibold text-center my-4">Login</h4>
                 <div class="card-body">
-                   
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -44,15 +43,9 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-dark px-3 d-block w-100">
+                                <button type="submit" class="btn btn-primary py-2 px-3 d-block w-100">
                                     {{ __('Login') }}
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link nav-link text-primary mt-3 " href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     </form>
