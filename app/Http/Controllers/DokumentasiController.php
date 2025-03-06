@@ -31,7 +31,7 @@ class DokumentasiController extends Controller
         $gambar = $request->file('gambar');
         $gambarNama = time() . '.' . $gambar->getClientOriginalExtension();
         $gambar->move(public_path('dokumentasi'), $gambarNama);
-        $gambarPath = 'dokumentasi/' . $gambarNama; 
+        $gambarPath = 'dokumentasi/' . $gambarNama;
 
         Dokumentasi::create([
             'judul' => $request->judul,
@@ -61,10 +61,18 @@ class DokumentasiController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            Storage::disk('public')->delete($dokumentasi->gambar);
-            $gambarPath = $request->file('gambar')->store('dokumentasi', 'public');
+            if ($dokumentasi->gambar && file_exists(public_path($dokumentasi->gambar))) {
+                unlink(public_path($dokumentasi->gambar));
+            }
+
+            $gambar = $request->file('gambar');
+            $gambarNama = time() . '.' . $gambar->getClientOriginalExtension();
+            $gambar->move(public_path('dokumentasi'), $gambarNama);
+            $gambarPath = 'dokumentasi/' . $gambarNama;
+
             $dokumentasi->gambar = $gambarPath;
         }
+
 
         $dokumentasi->update([
             'judul' => $request->judul,
