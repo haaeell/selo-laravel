@@ -27,7 +27,15 @@
                     <td>{{ $data->alamat }}</td>
                     <td>{{ $data->jenis_kelamin }}</td>
                     <td>{{ $data->tanggal_lahir }}</td>
-                    <td>{{ \Carbon\Carbon::parse($data->tanggal_lahir)->age }} tahun</td>
+                    <td>
+                        @php
+                            $tanggalLahir = \Carbon\Carbon::parse($data->tanggal_lahir);
+                            $umurTahun = $tanggalLahir->diffInYears(now());
+                            $umurBulan = $tanggalLahir->diffInMonths(now()) % 12;
+                        @endphp
+                        {{ $umurTahun }} tahun {{ $umurBulan }} bulan
+                    </td>
+                    
                     <td>
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}">Edit</button>
                         <form action="{{ route('bayi.destroy', $data->id) }}" method="POST" style="display: inline-block;">
