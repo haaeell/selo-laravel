@@ -26,7 +26,7 @@
                         <input type="file" class="form-control" name="gambar" accept="image/*">
                         <small class="text-muted">Kosongkan jika tidak ingin mengganti gambar</small>
                         <br>
-                        <img src="{{ asset('storage/' . $dokumentasi->gambar) }}" width="100" class="mt-2">
+                        <td><img src="{{ asset($dokumentasi->gambar) }}" width="100" class="mt-2" alt="Dokumentasi"></td>
                     </div>
                     <div class="form-group mb-3">
                         <label>Tanggal:</label>

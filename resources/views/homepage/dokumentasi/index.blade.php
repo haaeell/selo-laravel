@@ -10,7 +10,7 @@
             @foreach ($dokumentasi as $item)
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 d-flex flex-column">
-                        <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : 'https://placehold.co/600x400' }}" 
+                        <img src="{{ asset($item->gambar) }}" 
                             class="card-img-top" 
                             alt="Dokumentasi"
                             style="height: 200px; object-fit: cover;">

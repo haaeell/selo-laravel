@@ -28,7 +28,10 @@ class DokumentasiController extends Controller
             'tanggal' => 'required|date',
         ]);
 
-        $gambarPath = $request->file('gambar')->store('dokumentasi', 'public');
+        $gambar = $request->file('gambar');
+        $gambarNama = time() . '.' . $gambar->getClientOriginalExtension();
+        $gambar->move(public_path('dokumentasi'), $gambarNama);
+        $gambarPath = 'dokumentasi/' . $gambarNama; 
 
         Dokumentasi::create([
             'judul' => $request->judul,

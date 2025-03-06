@@ -9,7 +9,7 @@
         <div class="row justify-content-center" >
             <div class="col-md-10">
                 <div class="card">
-                    <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : 'https://placehold.co/600x400' }}" width="100" class="card-img-top" alt="Dokumentasi">
+                    <img src="{{ asset($item->gambar) }}" width="100" class="card-img-top" alt="Dokumentasi">
                     <div class="card-body">
                         <h5 class="card-title">{{ $item->judul }}</h5>
                         <span>{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</span>

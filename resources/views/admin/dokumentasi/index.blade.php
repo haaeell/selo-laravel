@@ -24,7 +24,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $data->judul }}</td>
                     <td>{{ $data->deskripsi }}</td>
-                    <td><img src="{{ asset('storage/' . $data->gambar) }}" width="100"></td>
+                    <td><img src="{{ asset($data->gambar) }}" width="100" alt="Dokumentasi"></td>
                     <td>{{ $data->tanggal }}</td>
                     <td>
                         <a href="{{ route('dokumentasi.edit', $data->id) }}" class="btn btn-warning">Edit</a>
