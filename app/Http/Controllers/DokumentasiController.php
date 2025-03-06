@@ -30,8 +30,8 @@ class DokumentasiController extends Controller
 
         $gambar = $request->file('gambar');
         $gambarNama = time() . '.' . $gambar->getClientOriginalExtension();
-        $gambar->move(public_path('dokumentasi'), $gambarNama);
-        $gambarPath = 'dokumentasi/' . $gambarNama;
+        $gambar->move(public_path('dokumentasi-kegiatan'), $gambarNama);
+        $gambarPath = 'dokumentasi-kegiatan/' . $gambarNama;
 
         Dokumentasi::create([
             'judul' => $request->judul,
@@ -67,8 +67,8 @@ class DokumentasiController extends Controller
 
             $gambar = $request->file('gambar');
             $gambarNama = time() . '.' . $gambar->getClientOriginalExtension();
-            $gambar->move(public_path('dokumentasi'), $gambarNama);
-            $gambarPath = 'dokumentasi/' . $gambarNama;
+            $gambar->move(public_path('dokumentasi-kegiatan'), $gambarNama);
+            $gambarPath = 'dokumentasi-kegiatan/' . $gambarNama;
 
             $dokumentasi->gambar = $gambarPath;
         }
